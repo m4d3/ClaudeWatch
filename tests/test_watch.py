@@ -379,8 +379,8 @@ class WatchTests(unittest.TestCase):
             (repo / "shader.py").write_text("# fixture")
             text = f"[Preview](<{image}:12>)\n`shader.py`\nmissing.png\nhttps://example.com/a.png"
             self.assertEqual(
-                set(w.file_references(text, str(repo))),
-                {image.resolve(), (repo / "shader.py").resolve()},
+                {w.norm(p.resolve()) for p in w.file_references(text, str(repo))},
+                {w.norm(image.resolve()), w.norm((repo / "shader.py").resolve())},
             )
             with mock.patch.object(sys.stdout, "isatty", return_value=True):
                 view = w.ConsoleView(links="on")

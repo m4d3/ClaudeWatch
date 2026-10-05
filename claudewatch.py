@@ -612,12 +612,13 @@ def file_references(text, cwd):
                 if not cwd:
                     continue
                 path = Path(cwd) / path
-            path = path.resolve()
-            if str(path).startswith(("\\\\", "//")):
+            # Check the real target, but link the spelling the message used (symlinks, 8.3 names).
+            target = path.resolve()
+            if str(target).startswith(("\\\\", "//")):
                 continue
-            if path.is_file() and norm(path) not in seen:
-                seen.add(norm(path))
-                found.append(path)
+            if target.is_file() and norm(target) not in seen:
+                seen.add(norm(target))
+                found.append(Path(os.path.normpath(path)))
                 if len(found) >= 128:
                     break
         except (OSError, ValueError):
