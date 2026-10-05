@@ -7,6 +7,11 @@ folder and follow its main sessions and subagents without resuming or controllin
 It is the Claude Code counterpart of [CodexWatch](https://github.com/m4d3/CodexWatch).
 It is a single Python file that works on Windows, macOS, and Linux.
 
+<p align="center">
+  <img src="docs/feed.png" width="820" alt="ClaudeWatch feed: the main session (A01) asks a code-reviewer subagent (A02) to check conflict rules. Reads and writes from both agents appear as single lines, a failing test run is marked as a red ERROR with its first output lines, and the subagent's findings appear as an Answer card.">
+</p>
+<p align="center"><sub>Made-up example session. Conversation gets cards; routine tool calls take one line.</sub></p>
+
 ## Quick start
 
 Requires Python 3.11 or newer. No runtime packages, API keys, or account connection.
@@ -67,19 +72,15 @@ and coordination between agents. Routine tool calls and results take one line.
   commands, and tool-usage errors such as "file has not been read yet" get an amber
   ATTENTION marker.
 
-```text
-  14:12:01  A01  Action: Bash · Run the unit tests
-  14:12:03  A01  Result: Bash · 42 lines
+<details>
+<summary><b>Full example:</b> startup banner, prompt, thinking, plan, permission denial, and final answer</summary>
+<br>
+<p align="center">
+  <img src="docs/screenshot.png" width="820" alt="Complete ClaudeWatch session: the startup banner lists two saved sessions; then a prompt card, a thinking card, the subagent hand-off, single-line tool calls, a red ERROR for a failing test, the subagent's answer, a plan checklist, an amber ATTENTION for a denied command, and a green final answer, followed by the live-watch line.">
+</p>
+</details>
 
-  14:12:04  A01  Main session
-  Progress
-  The build passed. I am checking the preview next.
-
-  14:12:08  A02  ERROR: Bash · exit 1
-    Permission denied
-```
-
-This example is synthetic. No user logs or screenshots are distributed.
+The screenshots show a made-up project and session. No real user logs are distributed.
 
 | Option | Purpose |
 | --- | --- |
