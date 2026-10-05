@@ -217,6 +217,15 @@ class WatchTests(unittest.TestCase):
             {"type": "tool_use", "id": "e1", "name": "Edit", "input": {"file_path": "/x/app.py"}}
         )
         self.assertIn("Files: Edit · /x/app.py", render(view, log, edit))
+        with tempfile.TemporaryDirectory() as folder:
+            inside = w.Log(Path("p/t.jsonl"), {"session": "t", "cwd": folder})
+            deep = str(Path(folder) / "src" / "very" / "long" / "folder" / "names" / "app.py")
+            edit = assistant(
+                {"type": "tool_use", "id": "e2", "name": "Edit", "input": {"file_path": deep}}
+            )
+            self.assertIn(
+                "Files: Edit · src/very/long/folder/names/app.py", render(view, inside, edit)
+            )
         mcp = assistant(
             {"type": "tool_use", "id": "m1", "name": "mcp__github__create_issue", "input": {}}
         )

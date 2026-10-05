@@ -960,6 +960,16 @@ class ConsoleView:
             title = "Files" if name in FILE_TOOLS else "Action"
             summary = label
             first = action_summary(args)
+            cwd = log.meta.get("cwd")
+            # Long absolute paths would be cut before the filename; show them project-relative.
+            if (
+                first
+                and cwd
+                and os.path.isabs(first)
+                and under(first, cwd)
+                and norm(first) != norm(cwd)
+            ):
+                first = Path(os.path.relpath(first, cwd)).as_posix()
             if first:
                 summary += " · " + first
         elif kind == "AGENT ACTIVITY":
